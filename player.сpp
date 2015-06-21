@@ -1,0 +1,61 @@
+#include "player.hpp"
+
+Player::Player()//констурктор
+{
+    x = 1.0;
+    y = 1.0;
+}
+
+Player::~Player()//деструктор
+{
+
+}
+
+double Player::X()
+{
+    return this->x;//вказівник на х
+}
+
+double Player::Y()
+{
+    return this->y;//вказівник на у
+}
+
+void Player::MoveTo(double xp, double yp)// рух машинки гравця
+{
+    this->x = xp;
+    this->y = yp;
+}
+
+void Player::Move(double dx, double dy)//рух в конкретне місце
+{
+    this->x += dx;
+    this->y += dy;
+}
+
+void Player::Draw()//малює машину гравця
+{
+    int xp = (int)round(this->x);
+    int yp = (int)round(this->y);
+    if (xp < 1 || yp < 1 || xp > (80 - 2) || yp > (25 - 3))
+    {
+        return;
+    }
+    set_color(cGREEN);
+    set_fill_style(X_FILL);
+    draw_line(xp + 1, yp, xp + 1, yp + 3);
+    draw_line(xp, yp + 1, xp + 2, yp + 1);
+    draw_line(xp, yp + 3, xp + 2, yp + 3);
+}
+
+bool Player::Intersects(Machine *m)// стик гравця з іншою машинкою
+{
+    if (fabs(m->X() - this->x) < 3.0 && fabs(m->Y() - this->y) < 4)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
